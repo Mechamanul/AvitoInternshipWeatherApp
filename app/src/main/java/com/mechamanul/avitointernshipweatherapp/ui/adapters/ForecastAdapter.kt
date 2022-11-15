@@ -5,18 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mechamanul.avitointernshipweatherapp.databinding.ForecastRvItemBinding
-import com.mechamanul.avitointernshipweatherapp.domain.model.ForecastTime
+import com.mechamanul.avitointernshipweatherapp.domain.model.WeatherTime
 
 class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
-    private var _currentList: List<ForecastTime> = emptyList()
-    fun setItems(list: List<ForecastTime>) {
+    private var _currentList: List<WeatherTime> = emptyList()
+    fun setItems(list: List<WeatherTime>) {
         _currentList = list
         notifyDataSetChanged()
     }
 
     inner class ViewHolder(private val binding: ForecastRvItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(forecastTime: ForecastTime) {
+        fun bind(forecastTime: WeatherTime) {
             binding.apply {
                 time.text = forecastTime.datetime.toString()
                 temperature.text = forecastTime.temperature.toString()
