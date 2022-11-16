@@ -1,7 +1,11 @@
 package com.mechamanul.avitointernshipweatherapp.di
 
-import com.example.weatherapp.data.WeatherService
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.mechamanul.avitointernshipweatherapp.BuildConfig
+import com.mechamanul.avitointernshipweatherapp.data.WeatherService
+import com.mechamanul.avitointernshipweatherapp.utils.LocalDateDeserializer
+import com.mechamanul.avitointernshipweatherapp.utils.LocalDateTimeDeserializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,12 +14,28 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 object WeatherModule {
+
+
+    @Singleton
+    @Provides
+    fun provideGson(): Gson {
+        val gsonBuilder =
+            GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateDeserializer())
+                .registerTypeAdapter(
+                    LocalDateTime::class.java, LocalDateTimeDeserializer()
+                ).setLenient()
+        return gsonBuilder.create()
+
+    }
+
     @Singleton
     @Provides
     fun provideOkHTTPClient(): OkHttpClient {
@@ -30,10 +50,10 @@ object WeatherModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(client: OkHttpClient) =
+    fun provideRetrofit(client: OkHttpClient, gson: Gson) =
         Retrofit.Builder().baseUrl("https://api.weatherapi.com/v1/").client(client)
             .addConverterFactory(
-                GsonConverterFactory.create()
+                GsonConverterFactory.create(gson)
             ).build()
 
     @Singleton

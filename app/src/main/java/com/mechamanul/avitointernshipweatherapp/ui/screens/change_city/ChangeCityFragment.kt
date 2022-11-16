@@ -1,4 +1,4 @@
-package com.mechamanul.avitointernshipweatherapp.ui
+package com.mechamanul.avitointernshipweatherapp.ui.screens.change_city
 
 import android.os.Bundle
 import android.view.LayoutInflater

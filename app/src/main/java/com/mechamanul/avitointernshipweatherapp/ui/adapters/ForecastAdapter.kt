@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mechamanul.avitointernshipweatherapp.databinding.ForecastRvItemBinding
 import com.mechamanul.avitointernshipweatherapp.domain.model.WeatherTime
+import java.time.format.DateTimeFormatter
 
 class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
     private var _currentList: List<WeatherTime> = emptyList()
@@ -18,9 +19,13 @@ class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(forecastTime: WeatherTime) {
             binding.apply {
-                time.text = forecastTime.datetime.toString()
+                time.text = if (forecastTime.time.hour != 0) {
+                    "${forecastTime.time.toLocalTime()}"
+                } else {
+                    forecastTime.time.toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM"))
+                }
                 temperature.text = forecastTime.temperature.toString()
-                Glide.with(binding.root).load(forecastTime.weatherIconPath).centerCrop()
+                Glide.with(binding.root.context).load(forecastTime.weatherIconPath)
                     .into(weatherIcon)
             }
         }

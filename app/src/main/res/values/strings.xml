@@ -1,9 +1,26 @@
 <resources>
     <string name="app_name">AvitoInternshipWeatherApp</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_header_current">Current</string>
     <string name="menu_item_week_title">Week</string>
     <string name="select_city_title_text">Select another city</string>
-    <string name="select_city_title">Select city</string>
+    <string name="temperature_placeholder">00</string>
+    <string name="city_placeholder">City</string>
+    <string name="weather_description_placeholder">Weather description</string>
+    <string name="wind_mph">Wind mph:%1$.1f</string>
+    <string name="humidity_textview">Humidity:%1$.1f</string>
+    <string name="uv_textview">UV:%1$.1f</string>
+    <string name="feels_like_textview">Feels like:%1$.1f</string>
+    <string name="day_forecast_textview">Day forecast</string>
+    <string name="degree">°</string>
+    <string name="max_wind_mph">Max wind mph:%1$.1f</string>
+    <string name="avg_humidity">Avg. Humidity:%1$.1f</string>
+    <string name="rain_chance">Rain chance:%1$.1f</string>
+    <string name="week_forecast">Week forecast</string>
+    <string name="uv_icon_description">uv icon</string>
+    <string name="weather_icon_description">weather icon</string>
+    <string name="wind_speed_icon_description">wind speed icon</string>
+    <string name="humidity_icon_description">humidity icon</string>
+    <string name="chance_of_rain_icon_description">chance of rain</string>
+    <string name="feels_like_icon_description">feels like icon</string>
 </resources>

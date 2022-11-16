@@ -3,42 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    android:label="Current"
     app:startDestination="@id/hourly_forecast">
 
-    <navigation
-        android:id="@+id/hourly_forecast"
-        app:startDestination="@id/forecastFragment">
-        <fragment
-            android:id="@+id/forecastFragment"
-            android:name="com.mechamanul.avitointernshipweatherapp.ui.ForecastFragment"
-            android:label="Current"
-            tools:layout="@layout/fragment_forecast">
-            <argument
-                android:name="forecast_type"
-                android:defaultValue="HOURLY"
-                app:argType="com.mechamanul.avitointernshipweatherapp.ui.ForecastType" />
-        </fragment>
-    </navigation>
-    <navigation
-        android:id="@+id/daily_forecast"
-        app:startDestination="@id/forecastFragment">
-        <fragment
-            android:id="@+id/forecastFragment"
-            android:name="com.mechamanul.avitointernshipweatherapp.ui.ForecastFragment"
-            android:label="Weekly"
-            tools:layout="@layout/fragment_forecast">
-            <argument
-                android:name="forecast_type"
-                android:defaultValue="DAILY"
-                app:argType="com.mechamanul.avitointernshipweatherapp.ui.ForecastType" />
-        </fragment>
-    </navigation>
     <fragment
         android:id="@+id/select_city"
-        android:name="com.mechamanul.avitointernshipweatherapp.ui.ChangeCityFragment"
+        android:name="com.mechamanul.avitointernshipweatherapp.ui.screens.change_city.ChangeCityFragment"
         android:label="Select city" />
     <action
         android:id="@+id/action_global_changeCityFragment"
         app:destination="@id/select_city" />
+    <fragment
+        android:id="@+id/daily_forecast"
+        android:name="com.mechamanul.avitointernshipweatherapp.ui.screens.daily.ForecastDailyFragment"
+        android:label="Today"
+        tools:layout="@layout/fragment_daily_forecast" />
+    <fragment
+        android:id="@+id/hourly_forecast"
+        android:name="com.mechamanul.avitointernshipweatherapp.ui.screens.hourly.ForecastHourlyFragment"
+        android:label="Current hour"
+        tools:layout="@layout/fragment_hourly_forecast" />
 </navigation>
