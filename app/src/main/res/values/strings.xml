@@ -23,4 +23,9 @@
     <string name="humidity_icon_description">humidity icon</string>
     <string name="chance_of_rain_icon_description">chance of rain</string>
     <string name="feels_like_icon_description">feels like icon</string>
+    <string name="location_instructions">Please give app location permission to get weather forecast for current location</string>
+    <string name="open">Open</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="permission_denied_forever_message">You denied permission too many times, now you have to enable it from app preferences</string>
+    <string name="permissions_denied_forever">You denied permission forever</string>
 </resources>

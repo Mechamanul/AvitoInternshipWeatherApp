@@ -1,6 +1,6 @@
-package com.mechamanul.avitointernshipweatherapp.data
+package com.mechamanul.avitointernshipweatherapp.data.remote
 
-import com.mechamanul.avitointernshipweatherapp.data.model.WeatherApiResponse
+import com.mechamanul.avitointernshipweatherapp.data.remote.model.WeatherApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

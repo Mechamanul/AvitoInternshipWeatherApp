@@ -1,4 +1,4 @@
-package com.mechamanul.avitointernshipweatherapp.data.model
+package com.mechamanul.avitointernshipweatherapp.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDate

@@ -7,9 +7,9 @@ import java.time.LocalTime
 import javax.inject.Inject
 
 class GetHourlyForecastUseCase @Inject constructor(private val weatherRepository: WeatherRepository) {
-    suspend fun execute(cityName: String): ApiResult<DetailedHourlyForecast> {
+    suspend fun execute(query: String): ApiResult<DetailedHourlyForecast> {
         return try {
-            val apiResult = weatherRepository.getHourlyForecast(cityName)
+            val apiResult = weatherRepository.getHourlyForecast(query)
             val filteredForecast =
                 apiResult.forecast.filter { it.time.toLocalTime() > LocalTime.now() }
             ApiResult.Success(apiResult.copy(forecast = filteredForecast))

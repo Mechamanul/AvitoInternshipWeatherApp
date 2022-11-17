@@ -1,5 +1,6 @@
 package com.mechamanul.avitointernshipweatherapp.data
 
+import com.mechamanul.avitointernshipweatherapp.data.remote.WeatherService
 import com.mechamanul.avitointernshipweatherapp.domain.WeatherRepository
 import com.mechamanul.avitointernshipweatherapp.domain.model.DetailedDailyForecast
 import com.mechamanul.avitointernshipweatherapp.domain.model.DetailedHourlyForecast
@@ -15,8 +16,8 @@ class WeatherRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getHourlyForecast(cityName: String): DetailedHourlyForecast {
-        val apiResponse = weatherService.getHourlyForecast(cityName)
+    override suspend fun getHourlyForecast(query: String): DetailedHourlyForecast {
+        val apiResponse = weatherService.getHourlyForecast(query)
         return with(apiResponse) {
             DetailedHourlyForecast(
                 temperature = currentHourForecast.temperature,
@@ -38,8 +39,8 @@ class WeatherRepositoryImpl @Inject constructor(
     }
 
     private fun appendHttps(url: String) = "https:${url}"
-    override suspend fun getDailyForecast(cityName: String): DetailedDailyForecast {
-        val apiResponse = weatherService.getDailyForecast(cityName)
+    override suspend fun getDailyForecast(query: String): DetailedDailyForecast {
+        val apiResponse = weatherService.getDailyForecast(query)
         return with(apiResponse.forecast) {
             DetailedDailyForecast(
                 avgTemperature = forecastResponse[0].averageDayForecastResponse.averageTemperature,

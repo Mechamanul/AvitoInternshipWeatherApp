@@ -4,23 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.mechamanul.avitointernshipweatherapp.R
 import com.mechamanul.avitointernshipweatherapp.databinding.FragmentDailyForecastBinding
 import com.mechamanul.avitointernshipweatherapp.domain.common.ApiResult
-import com.mechamanul.avitointernshipweatherapp.ui.BaseFragment
 import com.mechamanul.avitointernshipweatherapp.ui.MainViewModel
 import com.mechamanul.avitointernshipweatherapp.ui.adapters.ForecastAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ForecastDailyFragment : BaseFragment() {
+class ForecastDailyFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +67,9 @@ class ForecastDailyFragment : BaseFragment() {
                                     getString(R.string.max_wind_mph, apiResult.data.maxWindSpeed)
                                 rainChance.text =
                                     getString(R.string.rain_chance, apiResult.data.chanceOfRain)
-                                displayImage(weatherIcon, apiResult.data.iconPath)
+                                Glide.with(requireContext()).load(apiResult.data.iconPath)
+                                    .override(128, 128)
+                                    .into(weatherIcon)
                                 forecastAdapter.setItems(apiResult.data.forecast)
                             }
                         }

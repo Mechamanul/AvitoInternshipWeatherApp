@@ -1,9 +1,12 @@
 package com.mechamanul.avitointernshipweatherapp.di
 
+import android.app.Application
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mechamanul.avitointernshipweatherapp.BuildConfig
-import com.mechamanul.avitointernshipweatherapp.data.WeatherService
+import com.mechamanul.avitointernshipweatherapp.data.remote.WeatherService
 import com.mechamanul.avitointernshipweatherapp.utils.LocalDateDeserializer
 import com.mechamanul.avitointernshipweatherapp.utils.LocalDateTimeDeserializer
 import dagger.Module
@@ -21,8 +24,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object WeatherModule {
-
+object RemoteModule {
 
     @Singleton
     @Provides
@@ -50,13 +52,11 @@ object WeatherModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(client: OkHttpClient, gson: Gson) =
+    fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit =
         Retrofit.Builder().baseUrl("https://api.weatherapi.com/v1/").client(client)
             .addConverterFactory(
                 GsonConverterFactory.create(gson)
             ).build()
 
-    @Singleton
-    @Provides
-    fun provideApiService(retrofit: Retrofit) = retrofit.create(WeatherService::class.java)
+
 }
