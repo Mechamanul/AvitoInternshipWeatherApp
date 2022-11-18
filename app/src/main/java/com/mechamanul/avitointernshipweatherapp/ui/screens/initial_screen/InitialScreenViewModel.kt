@@ -25,12 +25,10 @@ class InitialScreenViewModel @Inject constructor(
                 val latitude = location.latitude
                 val longitude = location.longitude
                 _uiState.emit(UiState.LocationProvided("$latitude,$longitude"))
-                return@launch
             }
         } catch (e: Exception) {
             _uiState.emit(UiState.Error(e))
         }
-        return@launch
 
     }
 

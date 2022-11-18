@@ -92,6 +92,7 @@ class FragmentInitialScreen : Fragment() {
                 }
                 launch {
                     viewModel.detailedForecast.collect {
+                        Log.d("ApiResult", "$it")
                         if (it is ApiResult.Success) {
                             findNavController().popBackStack()
                         }

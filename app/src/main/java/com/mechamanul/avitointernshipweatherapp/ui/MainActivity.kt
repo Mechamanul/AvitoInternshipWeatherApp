@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    @OptIn(NavigationUiSaveStateControl::class)
     private fun setupNavigation(binding: ActivityMainBinding) = lifecycleScope.launch {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -45,23 +44,18 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            addMenuProvider(object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    if (navController.currentDestination!!.id != R.id.select_city) {
-                        menuInflater.inflate(R.menu.toolbar_menu, menu)
-                    }
-
+            toolbar.post {
+                toolbar.inflateMenu(R.menu.toolbar_menu)
+            }
+            toolbar.setOnMenuItemClickListener {
+                if (it.itemId == R.id.select_city) {
+                    navController.navigate(R.id.action_global_select_city)
                 }
-
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    if (menuItem.itemId == R.id.select_city) {
-                        navController.navigate(R.id.action_global_select_city)
-                    }
-                    return true
-                }
-            })
-            setSupportActionBar(toolbar)
+                true
+            }
+//            setSupportActionBar(toolbar)
             setupWithNavController(bottomNav, navController)
+            // disable viewModel autosave to handle query
             setupWithNavController(
                 toolbar,
                 navController,

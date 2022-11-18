@@ -24,7 +24,6 @@
         <action
             android:id="@+id/action_day_forecast_to_initial_screen"
             app:destination="@id/initial_screen"
-            app:popUpTo="@id/day_forecast"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
