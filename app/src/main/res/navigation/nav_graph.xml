@@ -20,10 +20,12 @@
         android:id="@+id/day_forecast"
         android:name="com.mechamanul.avitointernshipweatherapp.ui.screens.day_forecast.DayForecastFragment"
         android:label="Current hour"
-        tools:layout="@layout/fragment_hourly_forecast" >
+        tools:layout="@layout/fragment_hourly_forecast">
         <action
             android:id="@+id/action_day_forecast_to_initial_screen"
-            app:destination="@id/initial_screen" />
+            app:destination="@id/initial_screen"
+            app:popUpTo="@id/day_forecast"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/week_forecast"
