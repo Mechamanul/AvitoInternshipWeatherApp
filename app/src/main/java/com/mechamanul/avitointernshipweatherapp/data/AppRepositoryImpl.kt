@@ -1,6 +1,7 @@
 package com.mechamanul.avitointernshipweatherapp.data
 
 import android.location.Location
+import android.util.Log
 import com.mechamanul.avitointernshipweatherapp.data.remote.WeatherService
 import com.mechamanul.avitointernshipweatherapp.domain.AppRepository
 import com.mechamanul.avitointernshipweatherapp.domain.LocationService
@@ -16,7 +17,6 @@ import com.mechamanul.avitointernshipweatherapp.domain.model.City as DomainCity
 class AppRepositoryImpl @Inject constructor(
     private val weatherService: WeatherService,
     private val locationService: LocationService,
-//    private val sharedPreferences: SharedPreferences
 ) : AppRepository {
 
 
@@ -28,28 +28,6 @@ class AppRepositoryImpl @Inject constructor(
 
     private fun DataLocation.mapToDomain() = DomainCity(id = id, name = name, country = country)
 
-//    override suspend fun getHourlyForecast(query: String): DayForecastDetails {
-//        val apiResponse = weatherService.getHourlyForecast(query)
-//        return with(apiResponse) {
-//            DayForecastDetails(
-//                temperature = currentHourForecast.temperature,
-//                windSpeed = currentHourForecast.windSpeed,
-//                humidity = currentHourForecast.humidity,
-//                uv = currentHourForecast.uv,
-//                feelsLikeTemperature = currentHourForecast.feelsLikeTemperature,
-//                weatherDescription = currentHourForecast.weatherDescription.description,
-//                iconPath = appendHttps(currentHourForecast.weatherDescription.iconUrl),
-//                forecast = forecast.forecastResponse[0].listOfHourlyForecast.map {
-//                    WeatherTime(
-//                        it.temperature,
-//                        appendHttps(it.weatherDescription.iconUrl),
-//                        it.time
-//                    )
-//                }, city = city.mapToDomain(), time = LocalDateTime.now()
-//
-//            )
-//        }
-//    }
 
     private fun appendHttps(url: String) = "https:${url}"
     override suspend fun getDetailedForecast(query: String): DetailedForecast {
@@ -107,42 +85,14 @@ class AppRepositoryImpl @Inject constructor(
         )
     }
 
-//    override suspend fun getDailyForecast(query: String): WeekForecastDetails {
-//        val apiResponse = weatherService.getDailyForecast(query)
-//        return with(apiResponse) {
-//            WeekForecastDetails(
-//                avgTemperature = forecast.forecastResponse[0].averageDayForecastResponse.averageTemperature,
-//                maxWindSpeed = forecast.forecastResponse[0].averageDayForecastResponse.maxWind,
-//                avgHumidity = forecast.forecastResponse[0].averageDayForecastResponse.averageHumidity,
-//                uv = forecast.forecastResponse[0].averageDayForecastResponse.uv,
-//                chanceOfRain = forecast.forecastResponse[0].averageDayForecastResponse.chanceOfRain,
-//                weatherDescription = forecast.forecastResponse[0].averageDayForecastResponse.weatherDescription.description,
-//                iconPath = appendHttps(forecast.forecastResponse[0].averageDayForecastResponse.weatherDescription.iconUrl),
-//                forecast = forecast.forecastResponse.slice(1 until forecast.forecastResponse.size)
-//                    .map {
-//                        WeatherTime(
-//                            it.averageDayForecastResponse.averageTemperature,
-//                            appendHttps(it.averageDayForecastResponse.weatherDescription.iconUrl),
-//                            it.date.atStartOfDay()
-//                        )
-//                    },
-//                city = city.mapToDomain(),
-//                time = LocalDateTime.now()
-//            )
-//        }
-//    }
+
 
     override suspend fun getCurrentLocation(): Location? {
+        Log.d("repository","Asked location")
         return locationService.getCurrentLocation()
     }
 
-//    override suspend fun getSavedCityName(): String? {
-//        return sharedPreferences.getString("current_city_name", "London")
-//    }
-//
-//    override suspend fun setSavedCityName(name: String) {
-//        sharedPreferences.edit().putString("current_city_name", name).apply()
-//    }
+
 
 
 }

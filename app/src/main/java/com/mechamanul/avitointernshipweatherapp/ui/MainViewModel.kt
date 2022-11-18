@@ -1,16 +1,12 @@
 package com.mechamanul.avitointernshipweatherapp.ui
 
-import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mechamanul.avitointernshipweatherapp.domain.AppRepository
 import com.mechamanul.avitointernshipweatherapp.domain.common.ApiResult
 import com.mechamanul.avitointernshipweatherapp.domain.model.DetailedForecast
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime

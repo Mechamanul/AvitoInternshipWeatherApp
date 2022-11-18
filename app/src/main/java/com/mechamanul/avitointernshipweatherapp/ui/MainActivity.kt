@@ -2,10 +2,11 @@ package com.mechamanul.avitointernshipweatherapp.ui
 
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.activity.addCallback
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -38,17 +39,35 @@ class MainActivity : AppCompatActivity() {
             navController.addOnDestinationChangedListener { controller, destination, arguments ->
                 toolbar.isVisible = arguments?.getBoolean("ShowToolBar", true) ?: true
                 bottomNav.isVisible = arguments?.getBoolean("ShowBottomNav", true) ?: true
-            }
-            toolbar.post {
-                toolbar.inflateMenu(R.menu.toolbar_menu)
-            }
-            toolbar.setOnMenuItemClickListener {
-                if (it.itemId == R.id.select_city) {
-                    navController.navigate(R.id.action_global_select_city)
-                }
-                true
-            }
+                if (destination.id == R.id.select_city) {
+                    toolbar.post {
 
+                    }
+                }
+            }
+            addMenuProvider(object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.toolbar_menu, menu)
+
+                }
+
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    if (menuItem.itemId == R.id.select_city) {
+                        navController.navigate(R.id.action_global_select_city)
+                    }
+                    return true
+                }
+            })
+//            toolbar.post {
+//                toolbar.inflateMenu(R.menu.toolbar_menu)
+//            }
+//            toolbar.setOnMenuItemClickListener {
+//                if (it.itemId == R.id.select_city) {
+//                    navController.navigate(R.id.action_global_select_city)
+//                }
+//                true
+//            }
+            setSupportActionBar(toolbar)
             setupWithNavController(bottomNav, navController)
             // disable viewModel autosave to handle query
             setupWithNavController(

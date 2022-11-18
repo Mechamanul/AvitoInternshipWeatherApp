@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -78,7 +79,7 @@ class DayForecastFragment : Fragment() {
                                 .into(weatherIcon)
                             forecastAdapter.setItems(apiResult.data.dayForecast)
                         }
-                        null -> Unit
+                        null -> findNavController().navigate(R.id.action_day_forecast_to_initial_screen)
                     }
                 }
             }

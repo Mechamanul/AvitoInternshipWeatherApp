@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mechamanul.avitointernshipweatherapp.R
 import com.mechamanul.avitointernshipweatherapp.databinding.FragmentInitialScreenBinding
+import com.mechamanul.avitointernshipweatherapp.domain.common.ApiResult
 import com.mechamanul.avitointernshipweatherapp.ui.MainViewModel
 import com.mechamanul.avitointernshipweatherapp.ui.screens.initial_screen.InitialScreenViewModel.UiState.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,36 +50,51 @@ class FragmentInitialScreen : Fragment() {
             permissionDialogButton.setOnClickListener {
                 requestPermissions()
             }
+            progressBar.visibility = View.GONE
+            requestPermissions()
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                initialScreenViewModel.uiState.collect { state ->
-                    when (state) {
-                        is InitialState -> {
-                            binding.progressBar.visibility = View.GONE
-                            requestPermissions()
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                launch {
+                    initialScreenViewModel.uiState.collect { state ->
+                        when (state) {
+                            is Loading -> binding.apply {
+                                locationInstructions.visibility = View.GONE
+                                browseCityManuallyButton.visibility = View.GONE
+                                permissionDialogButton.visibility = View.GONE
+                                progressBar.visibility = View.VISIBLE
+                                Log.d("Loading", "started")
+
+                            }
+                            is LocationProvided -> {
+                                viewModel.setLocation(state.query)
+                            }
+                            is UserRefusedToGiveLocation -> Snackbar.make(
+                                binding.root,
+                                "You are able to relaunch permission dialog or choose city manually",
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                            is Error -> {
+                                binding.apply {
+                                    locationInstructions.visibility = View.VISIBLE
+                                    browseCityManuallyButton.visibility = View.VISIBLE
+                                    permissionDialogButton.visibility = View.VISIBLE
+                                    progressBar.visibility = View.GONE
+                                }
+                                Snackbar.make(
+                                    binding.root,
+                                    "${state.exception.message}",
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                            }
                         }
-//                        is Loading -> binding.apply {
-//                            locationInstructions.visibility = View.GONE
-//                            browseCityManuallyButton.visibility = View.GONE
-//                            permissionDialogButton.visibility = View.GONE
-//                            progressBar.visibility = View.VISIBLE
-//                        }
-                        is LocationProvided -> {
-                            viewModel.setLocation(state.query)
-                            findNavController()
-                                .navigate(R.id.action_initial_screen_to_day_forecast)
+                    }
+                }
+                launch {
+                    viewModel.detailedForecast.collect {
+                        if (it is ApiResult.Success) {
+                            findNavController().popBackStack()
                         }
-                        is UserRefusedToGiveLocation -> Snackbar.make(
-                            binding.root,
-                            "You are able to relaunch permission dialog or choose city manually",
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                        is Error -> Snackbar.make(
-                            binding.root,
-                            "${state.exception.message}",
-                            Snackbar.LENGTH_LONG
-                        ).show()
                     }
                 }
             }
@@ -96,12 +112,10 @@ class FragmentInitialScreen : Fragment() {
     }
 
     private fun onGotFineAndCoarseLocationResult(grantResults: Map<String, Boolean>) =
-        viewLifecycleOwner.lifecycleScope.launch {
-            if (grantResults.entries.any { it.value }) {
-                Log.d("anyGrant", "triggered")
-                initialScreenViewModel.requestCurrentLocation()
-            } else {
-                initialScreenViewModel.userRefusesMessage()
-            }
+        if (grantResults.entries.any { it.value }) {
+            Log.d("anyGrant", "triggered")
+            initialScreenViewModel.requestCurrentLocation()
+        } else {
+            initialScreenViewModel.userRefusesMessage()
         }
 }

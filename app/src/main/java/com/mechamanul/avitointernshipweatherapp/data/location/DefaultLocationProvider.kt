@@ -10,36 +10,37 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.mechamanul.avitointernshipweatherapp.domain.LocationService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
 
+@ExperimentalCoroutinesApi
 class DefaultLocationProvider @Inject constructor(
     private val locationClient: FusedLocationProviderClient,
     private val app: Application
 ) : LocationService {
-    override suspend fun getCurrentLocation(): Location? {
-        Log.d("LocationCall", "Started")
+    override suspend fun getCurrentLocation(): Location? = with(Dispatchers.Main) {
 
         val hasAccessFineLocationPermission = ContextCompat.checkSelfPermission(
             app,
             Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-        val hasAccessCoarseLocationPermission = ContextCompat.checkSelfPermission(
-            app,
-            Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
         val locationManager =
             app.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        if (!hasAccessFineLocationPermission  && !isGpsEnabled) {
-            throw Exception("You have to turn on both fine and coarse location and enable gps")
+        if (!hasAccessFineLocationPermission) {
+            throw Exception("You have to turn on both fine and coarse location")
+        }
+        if(!isGpsEnabled){
+            throw Exception("You have to enable gps for thi")
         }
 
-        val result = suspendCancellableCoroutine { cont ->
+        return suspendCancellableCoroutine { cont ->
             locationClient.lastLocation.apply {
                 Log.d("coroutineSuspended", "started")
                 if (isComplete) {
@@ -61,8 +62,6 @@ class DefaultLocationProvider @Inject constructor(
                 }
             }
         }
-        Log.d("result", "$result")
-        return result
 
 
     }

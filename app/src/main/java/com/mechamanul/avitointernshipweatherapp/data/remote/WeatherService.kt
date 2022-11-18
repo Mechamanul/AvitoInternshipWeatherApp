@@ -6,14 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherService {
-    @GET("forecast.json")
-    suspend fun getHourlyForecast(
-        @Query("q") cityName: String,
-        @Query("days") days: String = "1",
-        @Query("aqi") aqi: String = "no",
-        @Query("alerts") alerts: String = "no"
-    ): WeatherApiResponse
-
 
     @GET("forecast.json")
     suspend fun getDailyForecast(
