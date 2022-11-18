@@ -1,4 +1,4 @@
-package com.mechamanul.avitointernshipweatherapp.ui.screens.hourly
+package com.mechamanul.avitointernshipweatherapp.ui.screens.day_forecast
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,9 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ForecastHourlyFragment : Fragment() {
+class DayForecastFragment : Fragment() {
 
-    private val viewModel: MainViewModel by activityViewModels()
+    val viewModel: MainViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,34 +43,47 @@ class ForecastHourlyFragment : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.hourlyForecast.collect { apiResult ->
+                viewModel.detailedForecast.collect { apiResult ->
                     when (apiResult) {
                         is ApiResult.Error -> Snackbar.make(
                             binding.root,
-                            apiResult.exception.message.toString(),
+                            "${apiResult.exception.message}",
                             Snackbar.LENGTH_LONG
-                        )
+                        ).show()
                         is ApiResult.Success -> binding.apply {
-                            cityName.text = "Pavlodar"
+                            cityName.text = apiResult.data.city.name
                             humidity.text =
-                                getString(R.string.humidity_textview, apiResult.data.humidity)
-                            uv.text = getString(R.string.uv_textview, apiResult.data.uv)
-                            temperature.text = "${apiResult.data.temperature}"
-                            weatherDescription.text = apiResult.data.weatherDescription
-                            windSpeed.text = getString(R.string.wind_mph, apiResult.data.windSpeed)
+                                getString(
+                                    R.string.humidity_textview,
+                                    apiResult.data.dayForecastDetails.humidity
+                                )
+                            uv.text = getString(
+                                R.string.uv_textview,
+                                apiResult.data.dayForecastDetails.uv
+                            )
+                            temperature.text = "${apiResult.data.dayForecastDetails.temperature}"
+                            weatherDescription.text =
+                                apiResult.data.dayForecastDetails.weatherDescription
+                            windSpeed.text = getString(
+                                R.string.wind_mph,
+                                apiResult.data.dayForecastDetails.windSpeed
+                            )
                             feelsLike.text = getString(
                                 R.string.feels_like_textview,
-                                apiResult.data.feelsLikeTemperature
+                                apiResult.data.dayForecastDetails.feelsLikeTemperature
                             )
-                            Glide.with(requireContext()).load(apiResult.data.iconPath)
+                            Glide.with(requireContext())
+                                .load(apiResult.data.dayForecastDetails.iconPath)
                                 .override(128, 128)
                                 .into(weatherIcon)
-                            forecastAdapter.setItems(apiResult.data.forecast)
+                            forecastAdapter.setItems(apiResult.data.dayForecast)
                         }
+                        null -> Unit
                     }
                 }
             }
         }
     }
+
 
 }

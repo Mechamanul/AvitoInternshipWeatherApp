@@ -1,12 +1,15 @@
 package com.mechamanul.avitointernshipweatherapp.domain.model
 
-data class DetailedDailyForecast(
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class WeekForecastDetails(
     val avgTemperature: Float,
     val maxWindSpeed: Float,
     val avgHumidity: Float,
     val uv: Float,
     val chanceOfRain: Float,
-    val forecast: List<WeatherTime>,
     val weatherDescription: String,
     val iconPath: String
-)
+) : Parcelable

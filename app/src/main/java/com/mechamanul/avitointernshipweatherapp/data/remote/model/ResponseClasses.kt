@@ -5,8 +5,9 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class WeatherApiResponse(
+    @SerializedName("location") val city: City,
     @SerializedName("current") val currentHourForecast: CurrentForecast,
-    @SerializedName("forecast") val forecast: Forecast
+    @SerializedName("forecast") val forecast: Forecast,
 )
 
 data class CurrentForecast(
@@ -51,4 +52,5 @@ data class AverageDayForecastResponse(
     @SerializedName("maxwind_mph") val maxWind: Float
 )
 
+data class City(val id: Int, val name: String, val country: String)
 data class AstroResponse(val sunrise: String, val sunset: String)

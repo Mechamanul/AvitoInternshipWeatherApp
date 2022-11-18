@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/hourly_forecast"
+        android:id="@+id/day_forecast"
         android:icon="@drawable/ic_today"
         android:title="@string/menu_header_current" />
     <item
-        android:id="@+id/daily_forecast"
+        android:id="@+id/week_forecast"
         android:icon="@drawable/ic_week"
         android:title="@string/menu_item_week_title" />
 </menu>

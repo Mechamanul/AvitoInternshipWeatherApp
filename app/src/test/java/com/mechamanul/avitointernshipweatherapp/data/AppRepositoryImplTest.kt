@@ -8,7 +8,7 @@ import org.junit.Test
 const val DEFAULT_CITY = "London"
 
 @ExperimentalCoroutinesApi
-class WeatherRepositoryImplTest {
+class AppRepositoryImplTest {
 
     @Before
     fun setUp() {

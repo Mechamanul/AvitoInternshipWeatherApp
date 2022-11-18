@@ -28,4 +28,6 @@
     <string name="permission_denied">Permission denied</string>
     <string name="permission_denied_forever_message">You denied permission too many times, now you have to enable it from app preferences</string>
     <string name="permissions_denied_forever">You denied permission forever</string>
+    <string name="browse_city_manually_text">Browse city manually</string>
+    <string name="relaunch_permission_dialog_text">Relaunch permission dialog</string>
 </resources>

@@ -1,12 +1,8 @@
 package com.mechamanul.avitointernshipweatherapp.di
 
-import android.app.Application
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mechamanul.avitointernshipweatherapp.BuildConfig
-import com.mechamanul.avitointernshipweatherapp.data.remote.WeatherService
 import com.mechamanul.avitointernshipweatherapp.utils.LocalDateDeserializer
 import com.mechamanul.avitointernshipweatherapp.utils.LocalDateTimeDeserializer
 import dagger.Module

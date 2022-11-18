@@ -1,14 +1,19 @@
-package com.mechamanul.avitointernshipweatherapp.ui.screens.daily
+package com.mechamanul.avitointernshipweatherapp.ui.screens.week_forecast
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -21,8 +26,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ForecastDailyFragment : Fragment() {
-    private val viewModel: MainViewModel by activityViewModels()
+class WeekForecastFragment : Fragment() {
+    val viewModel: MainViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,7 +49,7 @@ class ForecastDailyFragment : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.dailyForecast.collect { apiResult ->
+                viewModel.detailedForecast.collect { apiResult ->
                     when (apiResult) {
                         is ApiResult.Error -> {
                             Snackbar.make(
@@ -54,29 +60,45 @@ class ForecastDailyFragment : Fragment() {
                         }
                         is ApiResult.Success -> {
                             binding.apply {
-                                cityName.text = "Pavlodar"
+
+                                cityName.text = apiResult.data.city.name
                                 humidity.text =
                                     getString(
                                         R.string.avg_humidity,
-                                        apiResult.data.avgHumidity
+                                        apiResult.data.weekForecastDetails.avgHumidity
                                     )
-                                uv.text = getString(R.string.uv_textview, apiResult.data.uv)
-                                temperature.text = "${apiResult.data.avgTemperature}"
-                                weatherDescription.text = apiResult.data.weatherDescription
+                                uv.text = getString(
+                                    R.string.uv_textview,
+                                    apiResult.data.weekForecastDetails.uv
+                                )
+                                temperature.text =
+                                    "${apiResult.data.weekForecastDetails.avgTemperature}"
+                                weatherDescription.text =
+                                    apiResult.data.weekForecastDetails.weatherDescription
                                 windSpeed.text =
-                                    getString(R.string.max_wind_mph, apiResult.data.maxWindSpeed)
+                                    getString(
+                                        R.string.max_wind_mph,
+                                        apiResult.data.weekForecastDetails.maxWindSpeed
+                                    )
                                 rainChance.text =
-                                    getString(R.string.rain_chance, apiResult.data.chanceOfRain)
-                                Glide.with(requireContext()).load(apiResult.data.iconPath)
+                                    getString(
+                                        R.string.rain_chance,
+                                        apiResult.data.weekForecastDetails.chanceOfRain
+                                    )
+                                Glide.with(requireContext())
+                                    .load(apiResult.data.weekForecastDetails.iconPath)
                                     .override(128, 128)
                                     .into(weatherIcon)
-                                forecastAdapter.setItems(apiResult.data.forecast)
+                                forecastAdapter.setItems(apiResult.data.weekForecast)
                             }
                         }
+                        else -> Unit
                     }
                 }
             }
         }
         super.onViewCreated(view, savedInstanceState)
     }
+
+
 }
