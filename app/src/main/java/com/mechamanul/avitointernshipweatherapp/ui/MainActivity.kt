@@ -47,7 +47,9 @@ class MainActivity : AppCompatActivity() {
             }
             addMenuProvider(object : MenuProvider {
                 override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.toolbar_menu, menu)
+                    if (navController.currentDestination!!.id != R.id.select_city) {
+                        menuInflater.inflate(R.menu.toolbar_menu, menu)
+                    }
 
                 }
 
@@ -58,18 +60,8 @@ class MainActivity : AppCompatActivity() {
                     return true
                 }
             })
-//            toolbar.post {
-//                toolbar.inflateMenu(R.menu.toolbar_menu)
-//            }
-//            toolbar.setOnMenuItemClickListener {
-//                if (it.itemId == R.id.select_city) {
-//                    navController.navigate(R.id.action_global_select_city)
-//                }
-//                true
-//            }
             setSupportActionBar(toolbar)
             setupWithNavController(bottomNav, navController)
-            // disable viewModel autosave to handle query
             setupWithNavController(
                 toolbar,
                 navController,

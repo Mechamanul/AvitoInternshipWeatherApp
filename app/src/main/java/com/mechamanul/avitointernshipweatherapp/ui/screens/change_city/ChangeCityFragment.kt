@@ -2,10 +2,9 @@ package com.mechamanul.avitointernshipweatherapp.ui.screens.change_city
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -27,11 +26,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ChangeCityFragment : Fragment() {
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        setMenuVisibility(false)
-    }
-
     val searchViewModel: ChangeCityViewModel by viewModels()
     val viewModel: MainViewModel by activityViewModels()
     override fun onCreateView(
@@ -103,5 +97,6 @@ class ChangeCityFragment : Fragment() {
         }
         navController.popBackStack()
     }
+
 
 }

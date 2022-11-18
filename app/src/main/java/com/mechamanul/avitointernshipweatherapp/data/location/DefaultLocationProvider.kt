@@ -42,7 +42,6 @@ class DefaultLocationProvider @Inject constructor(
 
         return suspendCancellableCoroutine { cont ->
             locationClient.lastLocation.apply {
-                Log.d("coroutineSuspended", "started")
                 if (isComplete) {
                     if (isSuccessful) {
                         cont.resume(result)
